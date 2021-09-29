@@ -31,8 +31,20 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = MainFragmentBinding.inflate(inflater, container, false)
+        setupView()
+        setupObservers()
+        return binding.root
+    }
+
+    private fun setupView() {
         bookAdapter = BooksAdapter()
-        binding.recycler.adapter = bookAdapter
+        binding.apply {
+            recycler.adapter = bookAdapter
+            swipeRefresh.setOnRefreshListener { viewModel.getBooks() }
+        }
+    }
+
+    private fun setupObservers() {
         viewModel.screenStateLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is CompleteState -> displayCompleteState(it)
@@ -40,12 +52,14 @@ class MainFragment : Fragment() {
             }
         }
         viewModel.getBooks()
-        return binding.root
     }
 
     private fun displayCompleteState(it: CompleteState) {
         bookAdapter.submitList(it.sections)
-        binding.progressCircular.visibility = View.GONE
+        binding.apply {
+            progressCircular.visibility = View.GONE
+            swipeRefresh.isRefreshing = false
+        }
     }
 
     private fun displayLoadingState() {
