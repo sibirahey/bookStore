@@ -2,8 +2,10 @@ package com.kavak.bookstore
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.kavak.bookstore.ui.main.MainFragment
+import com.kavak.bookstore.ui.MainFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
