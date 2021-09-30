@@ -4,7 +4,7 @@ sealed class ScreenState
 
 object LoadingState : ScreenState()
 
-object NoBooksState : ScreenState()
+object ErrorState : ScreenState()
 
 object NoBestSellersState : ScreenState()
 

@@ -4,12 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavak.bookstore.api.BestSellerResponse
+import com.kavak.bookstore.api.BookResponse
 import com.kavak.bookstore.api.BooksApi
 import com.kavak.bookstore.dataView.*
 import com.kavak.bookstore.repository.BooksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import retrofit2.Response
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,18 +25,22 @@ class MainViewModel @Inject constructor(private val repository: BooksRepository)
         MutableLiveData(LoadingState)
     val screenStateLiveData: LiveData<ScreenState> = mutableScreenStateLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        mutableScreenStateLiveData.postValue(ErrorState)
+    }
+
 
     fun getBooks() {
-        viewModelScope.launch {
-            val deferredBooks = async { repository.getBooks() }
-            val deferredBestSellers = async { repository.getBestSellers() }
-
+        viewModelScope.launch(exceptionHandler) {
+            val deferredBooks = async(Dispatchers.IO) { repository.getBooks() }
+            val deferredBestSellers = async(Dispatchers.IO) { repository.getBestSellers() }
             val booksResponse = deferredBooks.await()
             val bestSellersResponse = deferredBestSellers.await()
+
             val books = booksResponse.body()?.results?.books
 
             if (!booksResponse.isSuccessful || books.isNullOrEmpty()) {
-                mutableScreenStateLiveData.postValue(NoBooksState)
+                mutableScreenStateLiveData.postValue(ErrorState)
                 return@launch
             }
 
