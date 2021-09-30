@@ -27,8 +27,8 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     private fun getMockSections(): List<ViewSection> {
         val list = mutableListOf<ViewSection>()
-        val book1 = BookItem("001", "", "Comedy1", "jaja")
-        val book2 = BookItem("002", "", "Comede2", "haha")
+        val book1 = BookItem("001", "https://raw.githubusercontent.com/ejgteja/files/main/0735223793.jpg", "Comedy1", "jaja")
+        val book2 = BookItem("002", "https://raw.githubusercontent.com/ejgteja/files/main/0735211299.jpg", "Comede2", "haha")
         val transversalList = mutableListOf<BookItem>()
         transversalList.add(book1)
         transversalList.add(book2)

@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.kavak.bookstore.R
 import com.kavak.bookstore.dataView.*
 import com.kavak.bookstore.databinding.BookItemLayoutBinding
 import com.kavak.bookstore.databinding.BookSectionTitleLayoutBinding
@@ -100,6 +103,13 @@ class BooksAdapter() : ListAdapter<ViewSection, ViewHolder>(ViewBookDiffCallback
             viewBinding.apply {
                 bookTitle.text = item.title
                 bookAuthor.text = item.author
+            }
+            if (item.coverImage.isNotEmpty()) {
+                viewBinding.bookImage.visibility = View.VISIBLE
+                Glide.with(viewBinding.bookImage.context)
+                    .load(item.coverImage)
+                    .error(R.drawable.ic_book)
+                    .into(viewBinding.bookImage)
             }
         }
     }

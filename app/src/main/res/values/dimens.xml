@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="book_image_height">56dp</dimen>
+    <dimen name="book_image_width">56dp</dimen>
     <dimen name="spinner_height">48dp</dimen>
     <dimen name="spinner_width">48dp</dimen>
-
     <dimen name="medium_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
 </resources>
