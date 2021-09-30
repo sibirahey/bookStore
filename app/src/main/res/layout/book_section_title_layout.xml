@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/section_title"
         style="@style/SectionTitle"

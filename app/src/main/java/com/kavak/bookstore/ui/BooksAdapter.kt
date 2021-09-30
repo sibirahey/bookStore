@@ -81,11 +81,15 @@ class BooksAdapter() : ListAdapter<ViewSection, ViewHolder>(ViewBookDiffCallback
         }
     }
 
-    class BookTransversalSectionViewHolder(viewBinding: BookTransversalSectionLayoutBinding) :
+    class BookTransversalSectionViewHolder(private val viewBinding: BookTransversalSectionLayoutBinding) :
         ViewHolder(viewBinding.root) {
 
         fun bind(bookTransversalSection: BookTransversalSection) {
-
+            if (bookTransversalSection.books.isNotEmpty()) {
+                val adapter = BooksAdapter()
+                viewBinding.recycler.adapter = adapter
+                adapter.submitList(bookTransversalSection.books)
+            }
         }
     }
 
